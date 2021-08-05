@@ -6,10 +6,8 @@ createSquares();
 resetButton.addEventListener("click", () => {
   clearGrid();
   let gridSet = prompt("How many squares per side? (1-100)");
-  if (gridSet > 100) {
-    while (gridSet > 100) {
-      gridSet = prompt("How many squares per side? (1-100)");
-    }
+  while (gridSet > 100) {
+    gridSet = prompt("How many squares per side? (1-100)");
   }
   if (!gridSet) gridSet = 16;
   createSquares(gridSet);
@@ -17,24 +15,30 @@ resetButton.addEventListener("click", () => {
 
 function createSquares(gridSet = 16) {
   for (let i = 1; i <= gridSet; i++) {
-    let row = document.createElement("div");
-    row.classList.add("row", i);
+    let newRow = document.createElement("div");
+    newRow.classList.add("row", i);
 
     for (let i = 1; i <= gridSet; i++) {
-      let square = document.createElement("div");
-      square.classList.add("square", i);
-      row.appendChild(square);
+      let newSquare = document.createElement("div");
+      newSquare.classList.add("square", i);
+      newRow.appendChild(newSquare);
     }
-    gridContainer.appendChild(row);
+    gridContainer.appendChild(newRow);
 
-    const squares = document.querySelectorAll(".square");
+    const allSquares = document.querySelectorAll(".square");
 
-    for (let square of squares) {
-      square.addEventListener("mouseenter", () =>
-        square.classList.add("hover")
+    for (let square of allSquares) {
+      square.addEventListener(
+        "mouseenter",
+        () => (square.style.backgroundColor = makeRandomColor())
       );
     }
   }
+}
+
+function makeRandomColor() {
+  const randomRGBValue = () => Math.floor(Math.random() * 256) - 1;
+  return `rgb(${randomRGBValue()},${randomRGBValue()},${randomRGBValue()})`;
 }
 
 function clearGrid() {
